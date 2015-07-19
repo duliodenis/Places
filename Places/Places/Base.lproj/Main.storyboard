@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="12K-5V-cDI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Places-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -15,11 +15,62 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yq8-TW-vuE">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="W2x-vY-8cr"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem title="Current Location" id="LSC-to-kRJ">
+                                        <connections>
+                                            <action selector="currentLocation:" destination="vXZ-lx-hvc" id="xuG-aS-mX9"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="FkW-Ih-iOb">
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="Gt2-CB-amY"/>
+                                    <constraint firstAttribute="height" constant="492" id="uxb-uz-KoA"/>
+                                </constraints>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="yq8-TW-vuE" firstAttribute="top" secondItem="FkW-Ih-iOb" secondAttribute="bottom" id="7WB-Oq-BKU"/>
+                            <constraint firstAttribute="centerX" secondItem="FkW-Ih-iOb" secondAttribute="centerX" id="eT6-fF-4gD"/>
+                            <constraint firstItem="yq8-TW-vuE" firstAttribute="leading" secondItem="FkW-Ih-iOb" secondAttribute="leading" id="wWM-oJ-pUp"/>
+                            <constraint firstAttribute="centerY" secondItem="FkW-Ih-iOb" secondAttribute="centerY" constant="-10" id="zzo-fZ-Qq3"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Places" id="6cx-41-7Bo"/>
+                    <connections>
+                        <outlet property="mapView" destination="FkW-Ih-iOb" id="HFZ-Do-ZPv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1382" y="387"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Rve-MK-Rxr">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="12K-5V-cDI" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="TKo-So-6Yq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="fOK-tb-sC2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4mq-Iz-SVD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="479" y="387"/>
         </scene>
     </scenes>
 </document>

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "LocationController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,17 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Responding to a location event
+    if (launchOptions[UIApplicationLaunchOptionsLocationKey]) {
+        LocationController *locationController = [LocationController sharedInstance];
+        [locationController.locationManager startUpdatingLocation];
+    }
     return YES;
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    LocationController *locationController = [LocationController sharedInstance];
+    [locationController.locationManager stopUpdatingLocation];
 }
 
 @end
