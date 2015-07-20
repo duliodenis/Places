@@ -35,6 +35,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>In order to manage your find interesting places near you.</string>
+	<string>In order to manage and find interesting places near you.</string>
 </dict>
 </plist>

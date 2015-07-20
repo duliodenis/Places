@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		6C1BE4411B5955B700153436 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1BE4401B5955B700153436 /* MapKit.framework */; };
 		6C1BE4441B5AD76A00153436 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE4431B5AD76A00153436 /* LocationController.m */; };
+		6C1BE4761B5D7C9200153436 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE4751B5D7C9200153436 /* SearchViewController.m */; };
+		6C1BE4791B5D8AF400153436 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE4781B5D8AF400153436 /* LocationData.m */; };
 		6C3D6E231B5941EA00608896 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3D6E221B5941EA00608896 /* main.m */; };
 		6C3D6E261B5941EA00608896 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3D6E251B5941EA00608896 /* AppDelegate.m */; };
 		6C3D6E291B5941EA00608896 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3D6E281B5941EA00608896 /* ViewController.m */; };
@@ -32,6 +34,10 @@
 		6C1BE4401B5955B700153436 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6C1BE4421B5AD76A00153436 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
 		6C1BE4431B5AD76A00153436 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
+		6C1BE4741B5D7C9200153436 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		6C1BE4751B5D7C9200153436 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		6C1BE4771B5D8AF400153436 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
+		6C1BE4781B5D8AF400153436 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
 		6C3D6E1D1B5941EA00608896 /* Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Places.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C3D6E211B5941EA00608896 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C3D6E221B5941EA00608896 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -66,11 +72,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6C3D6E141B5941E900608896 = {
+		6C1BE4731B5D7BFE00153436 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				6C1BE4401B5955B700153436 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6C3D6E141B5941E900608896 = {
+			isa = PBXGroup;
+			children = (
 				6C3D6E1F1B5941EA00608896 /* Places */,
+				6C1BE4731B5D7BFE00153436 /* Frameworks */,
 				6C3D6E391B5941EA00608896 /* PlacesTests */,
 				6C3D6E1E1B5941EA00608896 /* Products */,
 			);
@@ -92,6 +106,10 @@
 				6C3D6E251B5941EA00608896 /* AppDelegate.m */,
 				6C3D6E271B5941EA00608896 /* ViewController.h */,
 				6C3D6E281B5941EA00608896 /* ViewController.m */,
+				6C1BE4741B5D7C9200153436 /* SearchViewController.h */,
+				6C1BE4751B5D7C9200153436 /* SearchViewController.m */,
+				6C1BE4771B5D8AF400153436 /* LocationData.h */,
+				6C1BE4781B5D8AF400153436 /* LocationData.m */,
 				6C1BE4421B5AD76A00153436 /* LocationController.h */,
 				6C1BE4431B5AD76A00153436 /* LocationController.m */,
 				6C3D6E2A1B5941EA00608896 /* Main.storyboard */,
@@ -228,8 +246,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C1BE4791B5D8AF400153436 /* LocationData.m in Sources */,
 				6C1BE4441B5AD76A00153436 /* LocationController.m in Sources */,
 				6C3D6E291B5941EA00608896 /* ViewController.m in Sources */,
+				6C1BE4761B5D7C9200153436 /* SearchViewController.m in Sources */,
 				6C3D6E261B5941EA00608896 /* AppDelegate.m in Sources */,
 				6C3D6E231B5941EA00608896 /* main.m in Sources */,
 			);

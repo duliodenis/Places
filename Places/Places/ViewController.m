@@ -10,7 +10,7 @@
 #import "LocationController.h"
 #import <MapKit/MapKit.h>
 
-@interface ViewController () <LocationControllerDelegate>
+@interface ViewController () <LocationControllerDelegate, MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
@@ -23,10 +23,11 @@
     // the Location Controller Singleton
     [[LocationController sharedInstance] addLocationCoordinatorDelegate:self];
     self.mapView.showsUserLocation = YES;
+    self.mapView.delegate = self;
 }
 
 - (IBAction)currentLocation:(id)sender {
-    
+    NSLog(@"my current location");
 }
 
 #pragma mark - Location Controller Delegate Method
