@@ -27,6 +27,9 @@
     self.tableView.tableHeaderView = self.searchController.searchBar;
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
    
     // allocate the locationData search result object
     self.locationData = [[LocationData alloc] init];
@@ -37,6 +40,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+    }
+
     MKMapItem *mapItem = self.locationData.searchResults[indexPath.row];
     cell.textLabel.text = mapItem.name;
     return cell;
@@ -50,12 +58,12 @@
     return self.locationData.searchResults.count;
 }
 
+
 #pragma mark - UISearchResultsUpdating Delegate Method
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     NSString *searchString = searchController.searchBar.text;
-  //  [self searchForText:searchString scope:searchController.searchBar.selectedScopeButtonIndex];
-    [self.tableView reloadData];
+    [self searchText:searchString];
 }
 
 
@@ -65,11 +73,16 @@
     [self updateSearchResultsForSearchController:self.searchController];
 }
 
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self.searchController resignFirstResponder];
-    
+    [self searchText:searchBar.text];
+    self.searchController.active = false;
+}
+
+- (void)searchText:(NSString *)text {
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
-    request.naturalLanguageQuery = searchBar.text;
+    request.naturalLanguageQuery = text;
     request.region = self.locationData.region;
     
     MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
