@@ -17,34 +17,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yq8-TW-vuE">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="600" id="W2x-vY-8cr"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem title="Current Location" id="LSC-to-kRJ">
-                                        <connections>
-                                            <action selector="currentLocation:" destination="vXZ-lx-hvc" id="xuG-aS-mX9"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="FkW-Ih-iOb">
-                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="600" id="Gt2-CB-amY"/>
-                                    <constraint firstAttribute="height" constant="492" id="uxb-uz-KoA"/>
+                                    <constraint firstAttribute="width" constant="600" id="v2d-Ht-owT"/>
                                 </constraints>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="yq8-TW-vuE" firstAttribute="top" secondItem="FkW-Ih-iOb" secondAttribute="bottom" id="7WB-Oq-BKU"/>
-                            <constraint firstItem="FkW-Ih-iOb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="Omv-yg-dVj"/>
                             <constraint firstAttribute="centerX" secondItem="FkW-Ih-iOb" secondAttribute="centerX" id="eT6-fF-4gD"/>
-                            <constraint firstItem="yq8-TW-vuE" firstAttribute="leading" secondItem="FkW-Ih-iOb" secondAttribute="leading" id="wWM-oJ-pUp"/>
-                            <constraint firstAttribute="centerY" secondItem="FkW-Ih-iOb" secondAttribute="centerY" constant="-10" id="zzo-fZ-Qq3"/>
+                            <constraint firstItem="FkW-Ih-iOb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="44" id="mBX-3u-PIt"/>
+                            <constraint firstAttribute="centerY" secondItem="FkW-Ih-iOb" secondAttribute="centerY" constant="-54" id="zzo-fZ-Qq3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Places" id="6cx-41-7Bo">
