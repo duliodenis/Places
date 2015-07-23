@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  MapViewController.h
 //  Places
 //
 //  Created by Dulio Denis on 7/17/15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface MapViewController : UIViewController
 
 
 @end

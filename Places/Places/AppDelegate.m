@@ -17,6 +17,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Add Shake Motion Detection
+    application.applicationSupportsShakeToEdit = YES;
     // Responding to a location event
     if (launchOptions[UIApplicationLaunchOptionsLocationKey]) {
         LocationController *locationController = [LocationController sharedInstance];

@@ -1,24 +1,25 @@
 //
-//  ViewController.m
+//  MapViewController.m
 //  Places
 //
 //  Created by Dulio Denis on 7/17/15.
 //  Copyright (c) 2015 Dulio Denis. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "MapViewController.h"
 #import "LocationController.h"
 #import "LocationData.h"
+#import "LocationAnnotation.h"
 #import <MapKit/MapKit.h>
 
 
-@interface ViewController () <LocationControllerDelegate, MKMapViewDelegate, UISearchResultsUpdating, UISearchBarDelegate>
+@interface MapViewController () <LocationControllerDelegate, MKMapViewDelegate, UISearchResultsUpdating, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) UISearchController *searchController;
 @property (nonatomic) LocationData *locationData;
 @end
 
-@implementation ViewController
+@implementation MapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,11 +27,14 @@
     // Keep the subviews inside the top and bottom layout guides
     self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
     
-    // setup the Location Controller Singleton
-    [[LocationController sharedInstance] addLocationCoordinatorDelegate:self];
-    self.mapView.showsUserLocation = YES;
-    self.mapView.delegate = self;
-    
+    [self setupLocationController];
+    [self setupSearchBar];
+}
+
+
+#pragma mark - Setup Helper Methods
+
+- (void)setupSearchBar {
     // Add a search controller to the top of the map
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
@@ -49,6 +53,14 @@
     // Add SearchController's search bar to our view and bring it to front
     [self.view addSubview:self.searchController.searchBar];
     [self.view bringSubviewToFront:self.searchController.searchBar];
+}
+
+
+- (void)setupLocationController {
+    // setup the Location Controller Singleton
+    [[LocationController sharedInstance] addLocationCoordinatorDelegate:self];
+    self.mapView.showsUserLocation = YES;
+    self.mapView.delegate = self;
     
     // allocate the locationData search result object
     self.locationData = [[LocationData alloc] init];
@@ -82,8 +94,9 @@
 #pragma mark - UISearchResultsUpdating Delegate Method
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    NSString *searchString = searchController.searchBar.text;
-    [self searchText:searchString];
+// Do nothing - crashes without this method
+//    NSString *searchString = searchController.searchBar.text;
+//    [self searchText:searchString];
 }
 
 
@@ -104,15 +117,41 @@
 - (void)searchText:(NSString *)text {
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
     request.naturalLanguageQuery = text;
-    request.region = self.locationData.region;
+    request.region = self.mapView.region; // use the current mapView region
+    // request.region = self.locationData.region;
     
     MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
     [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
         self.locationData.searchResults = (NSMutableArray *)response.mapItems;
         dispatch_async(dispatch_get_main_queue(), ^{
             // drop pins into map
+            for (MKMapItem *mapItem in self.locationData.searchResults) {
+                MKPlacemark *placemark = mapItem.placemark;
+                
+                LocationAnnotation *annotation = [[LocationAnnotation alloc] initWithPlacemark:placemark];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.mapView addAnnotation:annotation];
+                });
+            }
         });
     }];
+}
+
+
+#pragma mark - Shake Motion Detection Method
+// Remove all search pins from map when user shakes device
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    if (motion == UIEventSubtypeMotionShake) {
+        id userLocation = [self.mapView userLocation];
+        NSMutableArray *pins = [[NSMutableArray alloc] initWithArray:[self.mapView annotations]];
+        if ( userLocation != nil ) {
+            [pins removeObject:userLocation]; // avoid removing user location off the map
+        }
+        
+        [self.mapView removeAnnotations:pins];
+    }
 }
 
 @end
