@@ -17,9 +17,16 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) UISearchController *searchController;
 @property (nonatomic) LocationData *locationData;
+@property (nonatomic) LocationAnnotation *currentAnnotation;
 @end
 
+
 @implementation MapViewController
+
+#pragma mark - Constants
+NSInteger const kFavoritePlace = 0;
+
+#pragma mark - View Lifecycle Methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,6 +36,7 @@
     
     [self setupLocationController];
     [self setupSearchBar];
+    [self loadPlaces];
 }
 
 
@@ -152,6 +160,88 @@
         
         [self.mapView removeAnnotations:pins];
     }
+}
+
+
+#pragma mark - Annotation Methods
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+    //first make sure the annotation is our custom class...
+    if ([view.annotation isKindOfClass:[LocationAnnotation class]]) {
+        //cast the object to our custom class...
+        LocationAnnotation *annotation = (LocationAnnotation *)view.annotation;
+        self.currentAnnotation = annotation;
+        
+        CLLocationCoordinate2D center = CLLocationCoordinate2DMake(annotation.coordinate.latitude, annotation.coordinate.longitude);
+        MKCoordinateSpan span = MKCoordinateSpanMake(10, 10);
+//        MKCoordinateRegion region = MKCoordinateRegionMake(center, span);
+        
+        // either execute the favorite saving or the notification set-up
+        if (control.tag == kFavoritePlace) {
+            [self favoritesActionSheetForPlace:annotation.title];
+        } /* else if (control.tag == kNotifyPlace) {
+            [self notificationActionSheetForPlace:annotation.title inRegion:region];
+        } */
+    }
+}
+
+
+// show an action sheet with title set to annotation's title
+// to confirm saving
+- (void)favoritesActionSheetForPlace:(NSString *)place {
+    UIAlertController *favoriteActionSheet = [UIAlertController alertControllerWithTitle:@"Favorite Location"
+                                                                                 message:[NSString stringWithFormat:@"You can save %@ as a favorite place.", place]
+                                                                          preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"Yes, save this as a favorite"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action) {
+                                                           [self savePlaces];
+                                                       }];
+    
+    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"No, not right now"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              // Canceled the Parse Save Operation
+                                                              self.currentAnnotation = nil;
+                                                          }];
+    
+    [favoriteActionSheet addAction:saveAction];
+    [favoriteActionSheet addAction:defaultAction];
+    [self presentViewController:favoriteActionSheet animated:YES completion:nil];
+}
+
+
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    
+    MKPinAnnotationView *myPin=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"current"];
+    
+    UIButton *favoriteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    favoriteButton.frame = CGRectMake(0, 0, 23, 23);
+    favoriteButton.tag = kFavoritePlace;
+//    [favoriteButton setBackgroundImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
+    
+    myPin.leftCalloutAccessoryView = favoriteButton;
+    myPin.draggable = NO;
+    myPin.highlighted = NO;
+    myPin.animatesDrop= YES;
+    myPin.canShowCallout = YES;
+    myPin.pinColor = MKPinAnnotationColorRed;
+    
+    return myPin;
+}
+
+
+#pragma mark - Model Helper Methods
+
+- (void)loadPlaces {
+    
+}
+
+- (void)savePlaces {
+    
 }
 
 @end

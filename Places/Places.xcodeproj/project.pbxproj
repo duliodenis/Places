@@ -12,6 +12,9 @@
 		6C1BE4761B5D7C9200153436 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE4751B5D7C9200153436 /* SearchViewController.m */; };
 		6C1BE4791B5D8AF400153436 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE4781B5D8AF400153436 /* LocationData.m */; };
 		6C1BE47C1B60319E00153436 /* LocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE47B1B60319E00153436 /* LocationAnnotation.m */; };
+		6C1BE47F1B61986B00153436 /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE47E1B61986B00153436 /* CoreDataStack.m */; };
+		6C1BE4821B6199ED00153436 /* Places.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE4801B6199ED00153436 /* Places.xcdatamodeld */; };
+		6C1BE4851B619AE300153436 /* Places.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE4841B619AE300153436 /* Places.m */; };
 		6C3D6E231B5941EA00608896 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3D6E221B5941EA00608896 /* main.m */; };
 		6C3D6E261B5941EA00608896 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3D6E251B5941EA00608896 /* AppDelegate.m */; };
 		6C3D6E291B5941EA00608896 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3D6E281B5941EA00608896 /* MapViewController.m */; };
@@ -41,6 +44,11 @@
 		6C1BE4781B5D8AF400153436 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
 		6C1BE47A1B60319E00153436 /* LocationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationAnnotation.h; sourceTree = "<group>"; };
 		6C1BE47B1B60319E00153436 /* LocationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationAnnotation.m; sourceTree = "<group>"; };
+		6C1BE47D1B61986B00153436 /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
+		6C1BE47E1B61986B00153436 /* CoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStack.m; sourceTree = "<group>"; };
+		6C1BE4811B6199ED00153436 /* Places.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Places.xcdatamodel; sourceTree = "<group>"; };
+		6C1BE4831B619AE300153436 /* Places.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Places.h; sourceTree = "<group>"; };
+		6C1BE4841B619AE300153436 /* Places.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Places.m; sourceTree = "<group>"; };
 		6C3D6E1D1B5941EA00608896 /* Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Places.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C3D6E211B5941EA00608896 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C3D6E221B5941EA00608896 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -83,6 +91,45 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6C1BE4871B619B8600153436 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6C1BE47D1B61986B00153436 /* CoreDataStack.h */,
+				6C1BE47E1B61986B00153436 /* CoreDataStack.m */,
+				6C1BE4831B619AE300153436 /* Places.h */,
+				6C1BE4841B619AE300153436 /* Places.m */,
+				6C1BE4801B6199ED00153436 /* Places.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		6C1BE4881B619BA500153436 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6C3D6E2A1B5941EA00608896 /* Main.storyboard */,
+				6C3D6E2F1B5941EA00608896 /* LaunchScreen.xib */,
+				6C3D6E2D1B5941EA00608896 /* Images.xcassets */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		6C1BE4891B619BDE00153436 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6C3D6E271B5941EA00608896 /* MapViewController.h */,
+				6C3D6E281B5941EA00608896 /* MapViewController.m */,
+				6C1BE47A1B60319E00153436 /* LocationAnnotation.h */,
+				6C1BE47B1B60319E00153436 /* LocationAnnotation.m */,
+				6C1BE4741B5D7C9200153436 /* SearchViewController.h */,
+				6C1BE4751B5D7C9200153436 /* SearchViewController.m */,
+				6C1BE4771B5D8AF400153436 /* LocationData.h */,
+				6C1BE4781B5D8AF400153436 /* LocationData.m */,
+				6C1BE4421B5AD76A00153436 /* LocationController.h */,
+				6C1BE4431B5AD76A00153436 /* LocationController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		6C3D6E141B5941E900608896 = {
 			isa = PBXGroup;
 			children = (
@@ -105,21 +152,9 @@
 		6C3D6E1F1B5941EA00608896 /* Places */ = {
 			isa = PBXGroup;
 			children = (
-				6C3D6E241B5941EA00608896 /* AppDelegate.h */,
-				6C3D6E251B5941EA00608896 /* AppDelegate.m */,
-				6C3D6E271B5941EA00608896 /* MapViewController.h */,
-				6C3D6E281B5941EA00608896 /* MapViewController.m */,
-				6C1BE47A1B60319E00153436 /* LocationAnnotation.h */,
-				6C1BE47B1B60319E00153436 /* LocationAnnotation.m */,
-				6C1BE4741B5D7C9200153436 /* SearchViewController.h */,
-				6C1BE4751B5D7C9200153436 /* SearchViewController.m */,
-				6C1BE4771B5D8AF400153436 /* LocationData.h */,
-				6C1BE4781B5D8AF400153436 /* LocationData.m */,
-				6C1BE4421B5AD76A00153436 /* LocationController.h */,
-				6C1BE4431B5AD76A00153436 /* LocationController.m */,
-				6C3D6E2A1B5941EA00608896 /* Main.storyboard */,
-				6C3D6E2D1B5941EA00608896 /* Images.xcassets */,
-				6C3D6E2F1B5941EA00608896 /* LaunchScreen.xib */,
+				6C1BE4891B619BDE00153436 /* Controller */,
+				6C1BE4881B619BA500153436 /* View */,
+				6C1BE4871B619B8600153436 /* Model */,
 				6C3D6E201B5941EA00608896 /* Supporting Files */,
 			);
 			path = Places;
@@ -128,6 +163,8 @@
 		6C3D6E201B5941EA00608896 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6C3D6E241B5941EA00608896 /* AppDelegate.h */,
+				6C3D6E251B5941EA00608896 /* AppDelegate.m */,
 				6C3D6E211B5941EA00608896 /* Info.plist */,
 				6C3D6E221B5941EA00608896 /* main.m */,
 			);
@@ -254,10 +291,13 @@
 				6C1BE4791B5D8AF400153436 /* LocationData.m in Sources */,
 				6C1BE4441B5AD76A00153436 /* LocationController.m in Sources */,
 				6C1BE47C1B60319E00153436 /* LocationAnnotation.m in Sources */,
+				6C1BE47F1B61986B00153436 /* CoreDataStack.m in Sources */,
 				6C3D6E291B5941EA00608896 /* MapViewController.m in Sources */,
 				6C1BE4761B5D7C9200153436 /* SearchViewController.m in Sources */,
 				6C3D6E261B5941EA00608896 /* AppDelegate.m in Sources */,
+				6C1BE4851B619AE300153436 /* Places.m in Sources */,
 				6C3D6E231B5941EA00608896 /* main.m in Sources */,
+				6C1BE4821B6199ED00153436 /* Places.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +504,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6C1BE4801B6199ED00153436 /* Places.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6C1BE4811B6199ED00153436 /* Places.xcdatamodel */,
+			);
+			currentVersion = 6C1BE4811B6199ED00153436 /* Places.xcdatamodel */;
+			path = Places.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6C3D6E151B5941E900608896 /* Project object */;
 }
