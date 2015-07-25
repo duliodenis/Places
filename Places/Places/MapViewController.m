@@ -221,14 +221,14 @@ NSInteger const kFavoritePlace = 0;
     UIButton *favoriteButton = [UIButton buttonWithType:UIButtonTypeCustom];
     favoriteButton.frame = CGRectMake(0, 0, 23, 23);
     favoriteButton.tag = kFavoritePlace;
-//    [favoriteButton setBackgroundImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
+    [favoriteButton setBackgroundImage:[UIImage imageNamed:@"favorite"] forState:UIControlStateNormal];
     
     myPin.leftCalloutAccessoryView = favoriteButton;
     myPin.draggable = NO;
     myPin.highlighted = NO;
     myPin.animatesDrop= YES;
     myPin.canShowCallout = YES;
-    myPin.pinColor = MKPinAnnotationColorRed;
+    myPin.pinColor = MKPinAnnotationColorGreen;
     
     return myPin;
 }
