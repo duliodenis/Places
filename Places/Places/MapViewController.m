@@ -11,6 +11,7 @@
 #import "LocationData.h"
 #import "LocationAnnotation.h"
 #import <MapKit/MapKit.h>
+#import "CoreDataStack.h"
 
 
 @interface MapViewController () <LocationControllerDelegate, MKMapViewDelegate, UISearchResultsUpdating, UISearchBarDelegate>
@@ -36,7 +37,7 @@ NSInteger const kFavoritePlace = 0;
     
     [self setupLocationController];
     [self setupSearchBar];
-    [self loadPlaces];
+    [self loadFavorites];
 }
 
 
@@ -160,6 +161,7 @@ NSInteger const kFavoritePlace = 0;
         
         [self.mapView removeAnnotations:pins];
     }
+    [self loadFavorites];
 }
 
 
@@ -172,16 +174,9 @@ NSInteger const kFavoritePlace = 0;
         LocationAnnotation *annotation = (LocationAnnotation *)view.annotation;
         self.currentAnnotation = annotation;
         
-        CLLocationCoordinate2D center = CLLocationCoordinate2DMake(annotation.coordinate.latitude, annotation.coordinate.longitude);
-        MKCoordinateSpan span = MKCoordinateSpanMake(10, 10);
-//        MKCoordinateRegion region = MKCoordinateRegionMake(center, span);
-        
-        // either execute the favorite saving or the notification set-up
         if (control.tag == kFavoritePlace) {
             [self favoritesActionSheetForPlace:annotation.title];
-        } /* else if (control.tag == kNotifyPlace) {
-            [self notificationActionSheetForPlace:annotation.title inRegion:region];
-        } */
+        }
     }
 }
 
@@ -196,7 +191,7 @@ NSInteger const kFavoritePlace = 0;
     UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"Yes, save this as a favorite"
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action) {
-                                                           [self savePlaces];
+                                                           [self saveFavorite];
                                                        }];
     
     UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"No, not right now"
@@ -234,14 +229,62 @@ NSInteger const kFavoritePlace = 0;
 }
 
 
-#pragma mark - Model Helper Methods
-
-- (void)loadPlaces {
-    
+- (void)makePinInMap:(NSArray*)pins {
+    for (Places *pin in pins) {
+        UIButton *favoriteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        favoriteButton.frame = CGRectMake(0, 0, 23, 23);
+        favoriteButton.tag = kFavoritePlace;
+        [favoriteButton setBackgroundImage:[UIImage imageNamed:@"favorite-selected"] forState:UIControlStateNormal];
+        
+        CLLocationDegrees latitude = [pin.latitude doubleValue];
+        CLLocationDegrees longitude = [pin.longitude doubleValue];
+        
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
+        LocationAnnotation *annotation = [[LocationAnnotation alloc] initWithCoordinate:coordinate];
+        
+        annotation.title = pin.title;
+        annotation.subtitle = pin.subtitle;
+        annotation.pinColor = MKPinAnnotationColorRed;
+        annotation.leftCalloutAccessoryView = favoriteButton;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.mapView addAnnotation:annotation];
+        });
+    }
 }
 
-- (void)savePlaces {
+
+#pragma mark - Model Helper Methods
+
+- (void)loadFavorites {
+    NSManagedObjectContext *context = [[CoreDataStack defaultStack] managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"Places" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    NSError *error;
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
     
+    [self makePinInMap:fetchedObjects];
+}
+
+
+- (void)saveFavorite {
+    NSManagedObjectContext *context = [[CoreDataStack defaultStack] managedObjectContext];
+    
+    Places *favorite = [NSEntityDescription
+                                       insertNewObjectForEntityForName:@"Places"
+                                       inManagedObjectContext:context];
+    
+    favorite.title = self.currentAnnotation.title;
+    favorite.subtitle = self.currentAnnotation.subtitle;
+    favorite.latitude = [NSNumber numberWithDouble:self.currentAnnotation.coordinate.latitude];
+    favorite.longitude = [NSNumber numberWithDouble:self.currentAnnotation.coordinate.longitude];
+    
+    NSError *error;
+    if (![context save:&error]) {
+        NSLog(@"Error saving: %@", [error localizedDescription]);
+    }
 }
 
 @end

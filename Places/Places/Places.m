@@ -13,7 +13,7 @@
 
 @dynamic title;
 @dynamic subtitle;
-@dynamic lattitude;
+@dynamic latitude;
 @dynamic longitude;
 
 @end
