@@ -20,4 +20,9 @@
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate;
 - (id)initWithPlacemark:(MKPlacemark *)placemark;
 
+- (instancetype)initWithAnnotation:(id<MKAnnotation>)annotation
+                   reuseIdentifier:(NSString *)reuseIdentifier
+                           pinView:(UIView *)pinView
+                       calloutView:(UIView *)calloutView;
+
 @end

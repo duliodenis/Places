@@ -10,6 +10,7 @@
 #import "LocationController.h"
 #import "LocationData.h"
 #import "LocationAnnotation.h"
+#import "LocationAnnotationView.h"
 #import <MapKit/MapKit.h>
 #import "CoreDataStack.h"
 
@@ -138,6 +139,7 @@ NSInteger const kFavoritePlace = 0;
                 MKPlacemark *placemark = mapItem.placemark;
                 
                 LocationAnnotation *annotation = [[LocationAnnotation alloc] initWithPlacemark:placemark];
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.mapView addAnnotation:annotation];
                 });
@@ -211,7 +213,21 @@ NSInteger const kFavoritePlace = 0;
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     
-    MKPinAnnotationView *myPin=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"current"];
+    UIView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin-blue"]];
+    
+    LocationAnnotationView *calloutView = [[[NSBundle mainBundle] loadNibNamed:@"LocationAnnotationView" owner:self options:nil] firstObject];
+    
+    /* MKPinAnnotationView *myPin=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"current"];
+    */
+    
+    LocationAnnotation *myPin = (LocationAnnotation *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([LocationAnnotation class])];
+    
+    if (!myPin) {
+        myPin = [[LocationAnnotation alloc] initWithAnnotation:annotation
+                                               reuseIdentifier:NSStringFromClass([LocationAnnotation class])
+                                                       pinView:pinView
+                                                   calloutView:calloutView];
+    }
     
     UIButton *favoriteButton = [UIButton buttonWithType:UIButtonTypeCustom];
     favoriteButton.frame = CGRectMake(0, 0, 23, 23);
@@ -240,7 +256,19 @@ NSInteger const kFavoritePlace = 0;
         CLLocationDegrees longitude = [pin.longitude doubleValue];
         
         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
-        LocationAnnotation *annotation = [[LocationAnnotation alloc] initWithCoordinate:coordinate];
+        // LocationAnnotation *annotation = [[LocationAnnotation alloc] initWithCoordinate:coordinate];
+        UIView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin-blue"]];
+        
+        LocationAnnotationView *calloutView = [[[NSBundle mainBundle] loadNibNamed:@"LocationAnnotationView" owner:self options:nil] firstObject];
+        
+        LocationAnnotation *annotation = (LocationAnnotation *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([LocationAnnotation class])];
+        
+        if (!annotation) {
+            annotation = [[LocationAnnotation alloc] initWithAnnotation:annotation
+                                                   reuseIdentifier:NSStringFromClass([LocationAnnotation class])
+                                                           pinView:pinView
+                                                       calloutView:calloutView];
+        }
         
         annotation.title = pin.title;
         annotation.subtitle = pin.subtitle;
