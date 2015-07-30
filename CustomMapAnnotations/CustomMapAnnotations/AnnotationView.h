@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface AnnotationView : UIView
-
+@property (nonatomic) IBOutlet UILabel *title;
 @end

@@ -6,7 +6,8 @@
 //  Copyright (c) 2015 Dulio Denis. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "AnnotationView.h"
+@import Foundation;
 @import MapKit;
 @import UIKit;
 
@@ -16,5 +17,5 @@
 
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate;
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate
-              andCallout:(UIView *)callout;
+              andCallout:(AnnotationView *)callout;
 @end

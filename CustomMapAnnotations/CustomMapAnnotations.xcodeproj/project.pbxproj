@@ -442,6 +442,7 @@
 				6C1BE4F51B6979B000153436 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6C1BE4F61B6979B000153436 /* Build configuration list for PBXNativeTarget "CustomMapAnnotationsTests" */ = {
 			isa = XCConfigurationList;
@@ -450,6 +451,7 @@
 				6C1BE4F81B6979B000153436 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

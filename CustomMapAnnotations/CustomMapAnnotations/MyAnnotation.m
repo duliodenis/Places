@@ -9,7 +9,7 @@
 #import "MyAnnotation.h"
 
 @interface MyAnnotation()
-@property(nonatomic, strong) UIView *calloutView;
+@property(nonatomic, strong) AnnotationView *calloutView;
 @end
 
 @implementation MyAnnotation
@@ -23,7 +23,7 @@
 }
 
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate
-              andCallout:(UIView *)callout {
+              andCallout:(AnnotationView *)callout {
     if ( self = [super init] ) {
         self.coordinate = coordinate;
         self.title = @"GCD + callout";
@@ -40,19 +40,15 @@
 
 // These methods are not being called
 
-- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent*)event
-{
-    NSLog(@"hittest");
+- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent*)event {
     UIView* hitView = [super hitTest:point withEvent:event];
-    if (hitView != nil)
-    {
+    if (hitView != nil) {
         [self.superview bringSubviewToFront:self.calloutView];
     }
     return hitView;
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-    NSLog(@"pointTest");
     BOOL isPointInside = [super pointInside:point withEvent:event];
     return isPointInside;
 }
