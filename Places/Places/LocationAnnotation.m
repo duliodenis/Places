@@ -59,7 +59,7 @@
         self.pinView = pinView;
         self.pinView.userInteractionEnabled = YES;
         self.calloutView = calloutView;
-        self.calloutView.hidden = YES;
+        self.calloutView.hidden = NO;
         
         [self addSubview:self.pinView];
         [self addSubview:self.calloutView];
@@ -88,8 +88,8 @@
     self.pinView.center = self.center;
     if (self.hasCalloutView) {
         CGRect frame = self.calloutView.frame;
-        frame.origin.y = -frame.size.height - 10.0f;
-        frame.origin.x = (self.frame.size.width - frame.size.width) / 2.0;
+        frame.origin.y = frame.size.height - 10.0f;
+        frame.origin.x = -(self.frame.size.width - frame.size.width) / 2.0;
         self.calloutView.frame = frame;
     }
 }
