@@ -16,6 +16,8 @@
 		6C1BE52D1B6D7DAD00153436 /* CustomMapAnnotation2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE52C1B6D7DAD00153436 /* CustomMapAnnotation2Tests.m */; };
 		6C1BE5391B6D7F4400153436 /* CustomPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE5381B6D7F4400153436 /* CustomPin.m */; };
 		6C1BE53C1B6D800E00153436 /* PinCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE53B1B6D800E00153436 /* PinCallout.m */; };
+		6C1BE5401B6D85FD00153436 /* Callout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C1BE53F1B6D85FD00153436 /* Callout.xib */; };
+		6C1BE5431B6D862C00153436 /* Callout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1BE5421B6D862C00153436 /* Callout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,9 @@
 		6C1BE5381B6D7F4400153436 /* CustomPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPin.m; sourceTree = "<group>"; };
 		6C1BE53A1B6D800E00153436 /* PinCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinCallout.h; sourceTree = "<group>"; };
 		6C1BE53B1B6D800E00153436 /* PinCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinCallout.m; sourceTree = "<group>"; };
+		6C1BE53F1B6D85FD00153436 /* Callout.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Callout.xib; sourceTree = "<group>"; };
+		6C1BE5411B6D862C00153436 /* Callout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Callout.h; sourceTree = "<group>"; };
+		6C1BE5421B6D862C00153436 /* Callout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Callout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +98,9 @@
 				6C1BE5381B6D7F4400153436 /* CustomPin.m */,
 				6C1BE53A1B6D800E00153436 /* PinCallout.h */,
 				6C1BE53B1B6D800E00153436 /* PinCallout.m */,
+				6C1BE5411B6D862C00153436 /* Callout.h */,
+				6C1BE5421B6D862C00153436 /* Callout.m */,
+				6C1BE53F1B6D85FD00153436 /* Callout.xib */,
 				6C1BE5361B6D7EDB00153436 /* Views */,
 				6C1BE5101B6D7DAD00153436 /* Supporting Files */,
 			);
@@ -217,6 +225,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C1BE5401B6D85FD00153436 /* Callout.xib in Resources */,
 				6C1BE51C1B6D7DAD00153436 /* Main.storyboard in Resources */,
 				6C1BE5211B6D7DAD00153436 /* LaunchScreen.xib in Resources */,
 				6C1BE51E1B6D7DAD00153436 /* Images.xcassets in Resources */,
@@ -239,6 +248,7 @@
 			files = (
 				6C1BE5391B6D7F4400153436 /* CustomPin.m in Sources */,
 				6C1BE53C1B6D800E00153436 /* PinCallout.m in Sources */,
+				6C1BE5431B6D862C00153436 /* Callout.m in Sources */,
 				6C1BE5191B6D7DAD00153436 /* ViewController.m in Sources */,
 				6C1BE5161B6D7DAD00153436 /* AppDelegate.m in Sources */,
 				6C1BE5131B6D7DAD00153436 /* main.m in Sources */,
@@ -436,6 +446,7 @@
 				6C1BE5321B6D7DAD00153436 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6C1BE5331B6D7DAD00153436 /* Build configuration list for PBXNativeTarget "CustomMapAnnotation2Tests" */ = {
 			isa = XCConfigurationList;
@@ -444,6 +455,7 @@
 				6C1BE5351B6D7DAD00153436 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

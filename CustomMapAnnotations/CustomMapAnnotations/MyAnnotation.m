@@ -9,24 +9,16 @@
 #import "MyAnnotation.h"
 
 @interface MyAnnotation()
-@property(nonatomic, strong) AnnotationView *calloutView;
+@property(nonatomic, weak) AnnotationView *calloutView;
 @end
 
 @implementation MyAnnotation
-
-- (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate {
-    if ( self = [super init] ) {
-        self.coordinate = coordinate;
-        self.title = @"GCD";
-    }
-    return self;
-}
 
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate
               andCallout:(AnnotationView *)callout {
     if ( self = [super init] ) {
         self.coordinate = coordinate;
-        self.title = @"GCD + callout";
+//        self.title = @"GCD + callout";
         self.calloutView = callout;
         [self addSubview:self.calloutView];
         
@@ -51,6 +43,10 @@
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     BOOL isPointInside = [super pointInside:point withEvent:event];
     return isPointInside;
+}
+
+- (void)hideCallout {
+    self.calloutView.hidden = YES;
 }
 
 @end

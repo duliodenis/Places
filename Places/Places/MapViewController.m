@@ -138,7 +138,7 @@ NSInteger const kFavoritePlace = 0;
             for (MKMapItem *mapItem in self.locationData.searchResults) {
                 MKPlacemark *placemark = mapItem.placemark;
                 
-                LocationAnnotation *annotation = [[LocationAnnotation alloc] initWithPlacemark:placemark];
+                LocationAnnotation *annotation = [[LocationAnnotation alloc] initAnnotationWithCoordinate:placemark.coordinate];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.mapView addAnnotation:annotation];
@@ -213,70 +213,22 @@ NSInteger const kFavoritePlace = 0;
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     
-    UIView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin-blue"]];
-    
-    LocationAnnotationView *calloutView = [[[NSBundle mainBundle] loadNibNamed:@"LocationAnnotationView" owner:self options:nil] firstObject];
-    
-    /* MKPinAnnotationView *myPin=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"current"];
-    */
-    
-    LocationAnnotation *myPin = (LocationAnnotation *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([LocationAnnotation class])];
-    
-    if (!myPin) {
-        myPin = [[LocationAnnotation alloc] initWithAnnotation:annotation
-                                               reuseIdentifier:NSStringFromClass([LocationAnnotation class])
-                                                       pinView:pinView
-                                                   calloutView:calloutView];
-    }
-    
-    UIButton *favoriteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    favoriteButton.frame = CGRectMake(0, 0, 23, 23);
-    favoriteButton.tag = kFavoritePlace;
-    [favoriteButton setBackgroundImage:[UIImage imageNamed:@"favorite"] forState:UIControlStateNormal];
-    
-    myPin.leftCalloutAccessoryView = favoriteButton;
-    myPin.draggable = NO;
-    myPin.highlighted = NO;
-    myPin.animatesDrop= YES;
-    myPin.canShowCallout = YES;
-    myPin.pinColor = MKPinAnnotationColorGreen;
-    
-    return myPin;
+    return [[LocationAnnotation alloc] initAnnotationWithCoordinate:annotation.coordinate];
 }
 
 
 - (void)makePinInMap:(NSArray*)pins {
     for (Places *pin in pins) {
-        UIButton *favoriteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        favoriteButton.frame = CGRectMake(0, 0, 23, 23);
-        favoriteButton.tag = kFavoritePlace;
-        [favoriteButton setBackgroundImage:[UIImage imageNamed:@"favorite-selected"] forState:UIControlStateNormal];
-        
         CLLocationDegrees latitude = [pin.latitude doubleValue];
         CLLocationDegrees longitude = [pin.longitude doubleValue];
-        
         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
-        // LocationAnnotation *annotation = [[LocationAnnotation alloc] initWithCoordinate:coordinate];
-        UIView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin-blue"]];
         
-        LocationAnnotationView *calloutView = [[[NSBundle mainBundle] loadNibNamed:@"LocationAnnotationView" owner:self options:nil] firstObject];
+        LocationAnnotation *myPin = (LocationAnnotation *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([LocationAnnotation class])];
         
-        LocationAnnotation *annotation = (LocationAnnotation *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([LocationAnnotation class])];
-        
-        if (!annotation) {
-            annotation = [[LocationAnnotation alloc] initWithAnnotation:annotation
-                                                   reuseIdentifier:NSStringFromClass([LocationAnnotation class])
-                                                           pinView:pinView
-                                                       calloutView:calloutView];
-        }
-        
-        annotation.title = pin.title;
-        annotation.subtitle = pin.subtitle;
-        annotation.pinColor = MKPinAnnotationColorRed;
-        annotation.leftCalloutAccessoryView = favoriteButton;
+        myPin = [[LocationAnnotation alloc] initAnnotationWithCoordinate:coordinate];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.mapView addAnnotation:annotation];
+            [self.mapView addAnnotation:myPin];
         });
     }
 }

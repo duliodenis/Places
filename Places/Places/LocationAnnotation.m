@@ -7,6 +7,7 @@
 //
 
 #import "LocationAnnotation.h"
+#import "LocationAnnotationView.h"
 
 
 @interface LocationAnnotation()
@@ -20,10 +21,6 @@
 
 @implementation LocationAnnotation
 
-+ (id)annotationWithCoordinate:(CLLocationCoordinate2D)coord {
-    return [[[self class] alloc] initWithCoordinate:coord];
-}
-
 
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate {
     if ( self = [super init] ) {
@@ -36,8 +33,8 @@
 - (id)initWithPlacemark:(MKPlacemark *)placemark {
     if ( self = [super init] ) {
         self.coordinate = placemark.coordinate;;
-        self.title = placemark.name;
-        self.subtitle = placemark.title;
+        //self.title = placemark.name;
+        //self.subtitle = placemark.title;
     }
     return self;
 }
@@ -52,26 +49,43 @@
                      reuseIdentifier:reuseIdentifier];
     
     if (self) {
-        self.clipsToBounds = NO;
-        self.hasCalloutView = (calloutView) ? YES : NO;
-        self.canShowCallout = YES;
-        
-        self.pinView = pinView;
-        self.pinView.userInteractionEnabled = YES;
-        self.calloutView = calloutView;
-        self.calloutView.hidden = NO;
-        
-        [self addSubview:self.pinView];
-        [self addSubview:self.calloutView];
-        self.frame = [self calculateFrame];
-        if (self.hasCalloutView) {
-                [self addCalloutBorder];
-        }
-        [self positionSubviews];
+        [self setUpAnnotation:pinView andCalloutView:calloutView];
     }
     return self;
 }
 
+
+- (void)setUpAnnotation:(UIView *)pinView andCalloutView:(UIView *)calloutView {
+    self.clipsToBounds = NO;
+    self.hasCalloutView = (calloutView) ? YES : NO;
+    self.canShowCallout = YES;
+    
+    self.pinView = pinView;
+    self.pinView.userInteractionEnabled = YES;
+    self.calloutView = calloutView;
+    self.calloutView.hidden = YES;
+    
+    [self addSubview:self.pinView];
+    [self addSubview:self.calloutView];
+    self.frame = [self calculateFrame];
+    if (self.hasCalloutView) {
+        [self addCalloutBorder];
+    }
+    [self positionSubviews];
+}
+
+- (instancetype)initAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate {
+    UIView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin-blue"]];
+    
+    LocationAnnotationView *calloutView = [[[NSBundle mainBundle] loadNibNamed:@"LocationAnnotationView" owner:self options:nil] firstObject];
+    
+    if (self = [super init] ) {
+        self.coordinate = coordinate;
+        [self setUpAnnotation:pinView andCalloutView:calloutView];
+    }
+    return self;
+    
+}
 
 - (void)addCalloutBorder {
     self.calloutView.layer.borderWidth = 2.0;
@@ -88,8 +102,7 @@
     self.pinView.center = self.center;
     if (self.hasCalloutView) {
         CGRect frame = self.calloutView.frame;
-        frame.origin.y = frame.size.height - 10.0f;
-        frame.origin.x = -(self.frame.size.width - frame.size.width) / 2.0;
+        frame.origin = CGPointMake(-frame.size.width/2 + 15, -frame.size.height);
         self.calloutView.frame = frame;
     }
 }
@@ -100,6 +113,8 @@
     UIView* hitView = [super hitTest:point withEvent:event];
     if (hitView != nil)
     {
+        NSLog(@"Pin tapped");
+        //[self setHidden:NO];
         [self.superview bringSubviewToFront:self.calloutView];
     }
     return hitView;

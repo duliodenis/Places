@@ -7,7 +7,7 @@
 //
 
 #import "PinCallout.h"
-#import "CustomPin.h"
+//#import "CustomPin.h"
 
 @interface PinCallout()
 @property(nonatomic, weak) id<MKAnnotation> annotation;

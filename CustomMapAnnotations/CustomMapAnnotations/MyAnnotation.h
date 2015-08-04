@@ -15,7 +15,9 @@
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString *title;
 
-- (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate;
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate
               andCallout:(AnnotationView *)callout;
+
+- (void)hideCallout;
+
 @end

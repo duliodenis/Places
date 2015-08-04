@@ -10,13 +10,12 @@
 #import <MapKit/MapKit.h>
 
 
-@interface LocationAnnotation : MKPinAnnotationView <MKAnnotation>
+@interface LocationAnnotation : MKAnnotationView <MKAnnotation>
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
 
-+ (id)annotationWithCoordinate:(CLLocationCoordinate2D)coord;
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate;
 - (id)initWithPlacemark:(MKPlacemark *)placemark;
 
@@ -24,5 +23,7 @@
                    reuseIdentifier:(NSString *)reuseIdentifier
                            pinView:(UIView *)pinView
                        calloutView:(UIView *)calloutView;
+
+- (instancetype)initAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate;
 
 @end
