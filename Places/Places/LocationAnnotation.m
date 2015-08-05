@@ -111,11 +111,8 @@
 - (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent*)event
 {
     UIView* hitView = [super hitTest:point withEvent:event];
-    if (hitView != nil)
-    {
-        NSLog(@"Pin tapped");
-        //[self setHidden:NO];
-        [self.superview bringSubviewToFront:self.calloutView];
+    if (hitView != nil) {
+        [self.calloutView setHidden:NO];
     }
     return hitView;
 }
@@ -124,20 +121,19 @@
 {
     CGRect rect = self.bounds;
     BOOL isInside = CGRectContainsPoint(rect, point);
-    if(!isInside)
-    {
-        for (UIView *view in self.subviews)
-        {
+    if(!isInside) {
+        for (UIView *view in self.subviews) {
             isInside = CGRectContainsPoint(view.frame, point);
             if(isInside)
                 break;
         }
+        [self.calloutView setHidden:YES];
     }
     return isInside;
 }
 
 -(void)dismiss {
-    [self setHidden:YES];
+    [self.calloutView setHidden:YES];
 }
 
 @end

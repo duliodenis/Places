@@ -74,6 +74,8 @@ NSInteger const kFavoritePlace = 0;
     
     // allocate the locationData search result object
     self.locationData = [[LocationData alloc] init];
+    
+    [self disableTapRecognizerForMapView:self.mapView];
 }
 
 
@@ -265,6 +267,17 @@ NSInteger const kFavoritePlace = 0;
     if (![context save:&error]) {
         NSLog(@"Error saving: %@", [error localizedDescription]);
     }
+}
+
+
+#pragma mark - Disable Tap Recognizer for MapView
+
+- (void)disableTapRecognizerForMapView:(MKMapView *)mapView {
+    NSArray *subviews = [[self.mapView.subviews objectAtIndex:0] gestureRecognizers];
+    
+    for (id gesture in subviews)
+        if ([gesture isKindOfClass:[UITapGestureRecognizer class]])
+            [gesture setEnabled:NO];
 }
 
 @end
