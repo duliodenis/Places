@@ -10,5 +10,9 @@
 
 @implementation LocationAnnotationView
 
+- (void)setupAnnotationView:(NSString *)title subtitle:(NSString *)subtitle {
+    _title.text = title;
+    _subtitle.text = subtitle;
+}
 
 @end

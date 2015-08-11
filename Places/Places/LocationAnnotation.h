@@ -16,14 +16,8 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
 
-- (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate;
-- (id)initWithPlacemark:(MKPlacemark *)placemark;
-
-- (instancetype)initWithAnnotation:(id<MKAnnotation>)annotation
-                   reuseIdentifier:(NSString *)reuseIdentifier
-                           pinView:(UIView *)pinView
-                       calloutView:(UIView *)calloutView;
-
-- (instancetype)initAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate;
+- (instancetype)initAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate
+                                       title:(NSString *)title
+                                    subtitle:(NSString *)subtitle;
 
 @end

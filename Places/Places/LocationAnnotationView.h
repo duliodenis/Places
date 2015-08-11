@@ -10,4 +10,9 @@
 
 @interface LocationAnnotationView : UIView
 
+@property (nonatomic, weak) IBOutlet UILabel *title;
+@property (nonatomic, weak) IBOutlet UILabel *subtitle;
+
+- (void)setupAnnotationView:(NSString *)title subtitle:(NSString *)subtitle;
+
 @end

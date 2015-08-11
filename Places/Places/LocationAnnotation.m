@@ -13,8 +13,9 @@
 @interface LocationAnnotation()
 
 @property(nonatomic, strong) UIView *pinView;
-@property(nonatomic, strong) UIView *calloutView;
+@property(nonatomic, strong) LocationAnnotationView *calloutView;
 @property(assign) BOOL hasCalloutView;
+@property (nonatomic, retain) MKAnnotationView *parentAnnotationView;
 
 @end
 
@@ -22,43 +23,10 @@
 @implementation LocationAnnotation
 
 
-- (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate {
-    if ( self = [super init] ) {
-        self.coordinate = coordinate;
-    }
-    return self;
-}
-
-
-- (id)initWithPlacemark:(MKPlacemark *)placemark {
-    if ( self = [super init] ) {
-        self.coordinate = placemark.coordinate;;
-        //self.title = placemark.name;
-        //self.subtitle = placemark.title;
-    }
-    return self;
-}
-
-
-- (instancetype)initWithAnnotation:(id<MKAnnotation>)annotation
-                   reuseIdentifier:(NSString *)reuseIdentifier
-                           pinView:(UIView *)pinView
-                       calloutView:(UIView *)calloutView {
-    
-    self = [super initWithAnnotation:annotation
-                     reuseIdentifier:reuseIdentifier];
-    
-    if (self) {
-        [self setUpAnnotation:pinView andCalloutView:calloutView];
-    }
-    return self;
-}
-
-
-- (void)setUpAnnotation:(UIView *)pinView andCalloutView:(UIView *)calloutView {
+- (void)setUpAnnotation:(UIView *)pinView andCalloutView:(LocationAnnotationView *)calloutView {
     self.clipsToBounds = NO;
     self.hasCalloutView = (calloutView) ? YES : NO;
-    self.canShowCallout = YES;
+    self.canShowCallout = NO;
     
     self.pinView = pinView;
     self.pinView.userInteractionEnabled = YES;
@@ -74,18 +42,23 @@
     [self positionSubviews];
 }
 
-- (instancetype)initAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate {
+
+- (instancetype)initAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate
+                                       title:(NSString *)title
+                                    subtitle:(NSString *)subtitle {
     UIView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin-blue"]];
     
     LocationAnnotationView *calloutView = [[[NSBundle mainBundle] loadNibNamed:@"LocationAnnotationView" owner:self options:nil] firstObject];
+    
+    [calloutView setupAnnotationView:title subtitle:subtitle];
     
     if (self = [super init] ) {
         self.coordinate = coordinate;
         [self setUpAnnotation:pinView andCalloutView:calloutView];
     }
     return self;
-    
 }
+
 
 - (void)addCalloutBorder {
     self.calloutView.layer.borderWidth = 2.0;
@@ -101,9 +74,12 @@
 - (void)positionSubviews {
     self.pinView.center = self.center;
     if (self.hasCalloutView) {
+        CGRect rect = CGRectMake(0, 0, 300, 100);
+        
         CGRect frame = self.calloutView.frame;
-        frame.origin = CGPointMake(-frame.size.width/2 + 15, -frame.size.height);
-        self.calloutView.frame = frame;
+        rect.origin = CGPointMake(-frame.size.width/2 + 65, -frame.size.height + 50);
+        frame.origin = CGPointMake(-frame.size.width/2 + 65, -frame.size.height + 50);
+        self.calloutView.frame = rect;
     }
 }
 
@@ -111,11 +87,26 @@
 - (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent*)event
 {
     UIView* hitView = [super hitTest:point withEvent:event];
+    
+    // If the accessory is hit, the map view may want to select an annotation sitting below it
+    // so we must disable the other annotations
+    // But not the parent because that will screw up the selection
     if (hitView != nil) {
+        for (UIView *sibling in self.superview.subviews) {
+            if ([sibling isKindOfClass:[MKAnnotationView class]] && sibling != self.parentAnnotationView) {
+                ((MKAnnotationView *)sibling).enabled = NO;
+            }
+        }
         [self.calloutView setHidden:NO];
     }
     return hitView;
 }
+
+
+- (void) enableSibling:(UIView *)sibling {
+    ((MKAnnotationView *)sibling).enabled = YES;
+}
+
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event
 {
@@ -131,6 +122,7 @@
     }
     return isInside;
 }
+
 
 -(void)dismiss {
     [self.calloutView setHidden:YES];

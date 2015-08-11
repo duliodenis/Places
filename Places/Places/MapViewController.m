@@ -140,7 +140,7 @@ NSInteger const kFavoritePlace = 0;
             for (MKMapItem *mapItem in self.locationData.searchResults) {
                 MKPlacemark *placemark = mapItem.placemark;
                 
-                LocationAnnotation *annotation = [[LocationAnnotation alloc] initAnnotationWithCoordinate:placemark.coordinate];
+                LocationAnnotation *annotation = [[LocationAnnotation alloc] initAnnotationWithCoordinate:placemark.coordinate title:placemark.name subtitle:placemark.title];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.mapView addAnnotation:annotation];
@@ -169,7 +169,7 @@ NSInteger const kFavoritePlace = 0;
 }
 
 
-#pragma mark - Annotation Methods
+#pragma mark - Annotation Delegate Methods
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     //first make sure the annotation is our custom class...
@@ -215,7 +215,9 @@ NSInteger const kFavoritePlace = 0;
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     
-    return [[LocationAnnotation alloc] initAnnotationWithCoordinate:annotation.coordinate];
+    return [[LocationAnnotation alloc] initAnnotationWithCoordinate:annotation.coordinate
+                                                              title:annotation.title
+                                                           subtitle:annotation.subtitle];
 }
 
 
@@ -227,7 +229,9 @@ NSInteger const kFavoritePlace = 0;
         
         LocationAnnotation *myPin = (LocationAnnotation *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([LocationAnnotation class])];
         
-        myPin = [[LocationAnnotation alloc] initAnnotationWithCoordinate:coordinate];
+        myPin = [[LocationAnnotation alloc] initAnnotationWithCoordinate:coordinate
+                                                                   title:pin.title
+                                                                subtitle:pin.subtitle];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.mapView addAnnotation:myPin];
