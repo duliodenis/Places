@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-
+#import "LocationAnnotationView.h"
 
 @interface LocationAnnotation : MKAnnotationView <MKAnnotation>
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
+
+@property(nonatomic, strong) LocationAnnotationView *calloutView;
 
 - (instancetype)initAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate
                                        title:(NSString *)title

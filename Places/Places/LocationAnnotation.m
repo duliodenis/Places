@@ -7,13 +7,10 @@
 //
 
 #import "LocationAnnotation.h"
-#import "LocationAnnotationView.h"
-
 
 @interface LocationAnnotation()
 
 @property(nonatomic, strong) UIView *pinView;
-@property(nonatomic, strong) LocationAnnotationView *calloutView;
 @property(assign) BOOL hasCalloutView;
 @property (nonatomic, retain) MKAnnotationView *parentAnnotationView;
 
@@ -42,7 +39,6 @@
     [self positionSubviews];
 }
 
-
 - (instancetype)initAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate
                                        title:(NSString *)title
                                     subtitle:(NSString *)subtitle {
@@ -55,6 +51,8 @@
     if (self = [super init] ) {
         self.coordinate = coordinate;
         [self setUpAnnotation:pinView andCalloutView:calloutView];
+        self.title = title;
+        self.subtitle = subtitle;
     }
     return self;
 }
@@ -97,7 +95,9 @@
                 ((MKAnnotationView *)sibling).enabled = NO;
             }
         }
-        [self.calloutView setHidden:NO];
+        self.selected = YES;
+    } else {
+        self.selected = NO;
     }
     return hitView;
 }
@@ -118,11 +118,24 @@
             if(isInside)
                 break;
         }
-        [self.calloutView setHidden:YES];
     }
     return isInside;
 }
 
+- (void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    
+    // Get the custom callout view.
+    UIView *calloutView = self.calloutView;
+    if (selected) {
+        [self addSubview:calloutView];
+        calloutView.hidden = NO;
+    } else {
+        calloutView.hidden = YES;
+        [calloutView removeFromSuperview];
+    }
+}
 
 -(void)dismiss {
     [self.calloutView setHidden:YES];

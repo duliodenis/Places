@@ -74,8 +74,6 @@ NSInteger const kFavoritePlace = 0;
     
     // allocate the locationData search result object
     self.locationData = [[LocationData alloc] init];
-    
-    [self disableTapRecognizerForMapView:self.mapView];
 }
 
 
@@ -129,8 +127,8 @@ NSInteger const kFavoritePlace = 0;
 - (void)searchText:(NSString *)text {
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
     request.naturalLanguageQuery = text;
-    request.region = self.mapView.region; // use the current mapView region
-    // request.region = self.locationData.region;
+    request.region = self.mapView.region; // use the current mapView region instead of
+                                          // request.region = self.locationData.region;
     
     MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
     [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
@@ -170,6 +168,16 @@ NSInteger const kFavoritePlace = 0;
 
 
 #pragma mark - Annotation Delegate Methods
+
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    NSLog(@"didSelectAnnotationView: %@", view);
+    if ([view isKindOfClass:[LocationAnnotation class]]) {
+        LocationAnnotation *ann = (LocationAnnotation*)view;
+        NSLog(@"ann: %@", ann);
+        ann.calloutView.hidden = !ann.calloutView.hidden;
+    }
+}
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     //first make sure the annotation is our custom class...
@@ -215,9 +223,10 @@ NSInteger const kFavoritePlace = 0;
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     
-    return [[LocationAnnotation alloc] initAnnotationWithCoordinate:annotation.coordinate
-                                                              title:annotation.title
-                                                           subtitle:annotation.subtitle];
+    LocationAnnotation *annotationView = [[LocationAnnotation alloc] initAnnotationWithCoordinate:annotation.coordinate
+                                                                                            title:annotation.title
+                                                                                         subtitle:annotation.subtitle];
+    return annotationView;
 }
 
 
@@ -228,14 +237,13 @@ NSInteger const kFavoritePlace = 0;
         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
         
         LocationAnnotation *myPin = (LocationAnnotation *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([LocationAnnotation class])];
+        if (!myPin) {
+            myPin = [[LocationAnnotation alloc] initAnnotationWithCoordinate:coordinate
+                                                                       title:pin.title
+                                                                    subtitle:pin.subtitle];
+        }
         
-        myPin = [[LocationAnnotation alloc] initAnnotationWithCoordinate:coordinate
-                                                                   title:pin.title
-                                                                subtitle:pin.subtitle];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.mapView addAnnotation:myPin];
-        });
+        [self.mapView addAnnotation:myPin];
     }
 }
 
@@ -271,17 +279,6 @@ NSInteger const kFavoritePlace = 0;
     if (![context save:&error]) {
         NSLog(@"Error saving: %@", [error localizedDescription]);
     }
-}
-
-
-#pragma mark - Disable Tap Recognizer for MapView
-
-- (void)disableTapRecognizerForMapView:(MKMapView *)mapView {
-    NSArray *subviews = [[self.mapView.subviews objectAtIndex:0] gestureRecognizers];
-    
-    for (id gesture in subviews)
-        if ([gesture isKindOfClass:[UITapGestureRecognizer class]])
-            [gesture setEnabled:NO];
 }
 
 @end
